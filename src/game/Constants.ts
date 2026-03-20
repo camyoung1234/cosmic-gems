@@ -10,7 +10,7 @@ export enum GemType {
     GREEN = 2,
     YELLOW = 3,
     PURPLE = 4,
-    ORANGE = 5
+    QUARTZ = 5
 }
 
 export enum PowerUpType {
