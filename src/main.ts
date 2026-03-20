@@ -37,11 +37,25 @@ async function init() {
     app.stage.addChild(gameContainer);
 
     const resize = () => {
-        gameContainer.x = app.screen.width / 2 - (GRID_SIZE * GEM_SIZE) / 2;
-        gameContainer.y = app.screen.height / 2 - (GRID_SIZE * GEM_SIZE) / 2 + 50;
+        const boardSize = GRID_SIZE * GEM_SIZE;
+        const margin = 20;
+        const hudSpace = 160;
 
-        hud.x = (GRID_SIZE * GEM_SIZE) / 2;
-        hud.y = -50;
+        const scaleX = (app.screen.width - margin * 2) / boardSize;
+        const scaleY = (app.screen.height - margin * 2 - hudSpace) / boardSize;
+        const scale = Math.min(scaleX, scaleY, 1);
+
+        gameContainer.scale.set(scale);
+
+        // Center horizontally
+        gameContainer.x = (app.screen.width - boardSize * scale) / 2;
+
+        // Center vertically, accounting for HUD space
+        const totalHeight = (boardSize + hudSpace) * scale;
+        gameContainer.y = (app.screen.height - totalHeight) / 2 + (hudSpace * scale);
+
+        hud.x = boardSize / 2;
+        hud.y = -80;
     };
 
     board.onScoreUpdate = (score) => hud.updateScore(score);
